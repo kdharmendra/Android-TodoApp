@@ -6,21 +6,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.bootcamp.android.domain.TodoItem;
+
 public class EditItemActivity extends AppCompatActivity {
 
     EditText etMultilineText;
+    TodoItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
         etMultilineText = (EditText) findViewById(R.id.etMultilineText);
-        etMultilineText.setText(getIntent().getStringExtra("selectedItem"));
+        item = getIntent().getParcelableExtra("selectedItem");
+        etMultilineText.setText(item.getName());
     }
 
     public void onSubmit(View view) {
         Intent result = new Intent();
-        result.putExtra("editedItem", etMultilineText.getText().toString());
+        item.setName(etMultilineText.getText().toString());
+        result.putExtra("editedItem", item);
         result.putExtra("editedItemIndex", getIntent().getIntExtra("selectedItemIndex", 0));
         result.putExtra("code", 200);
         setResult(RESULT_OK, result);
